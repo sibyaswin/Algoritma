@@ -120,5 +120,42 @@ def get_entities_normalized():
     return(dfn.to_json(orient='records'))
 
 
+@app.route('/endpoint_tertentu')
+def nama_fungsi_tertentu():
+    return ("Fungsi ini akan dijalankan saat endpoint tersebut diakses")
+
+@app.route('/endpoint_get', methods=['GET'])
+def contoh_get():
+    return ("Contoh endpoint get")
+    
+@app.route('/endpoint_post', methods=['POST'])
+def contoh_post():
+    return ("Contoh endpoint post")
+    
+@app.route('/endpoint_multi', methods=['GET', 'POST'])
+def multi_method():
+    if request.method == 'POST':
+        return ("Nilai ini akan dikembalikan jika endpoint ini diakses dengan method POST")
+    else : 
+        return ("Nilai ini akan dikembalikan jika endpoint ini diakses dengan method GET")
+
+
+@app.route('/tes_send_json', methods=['POST'])
+def tes_send_json():
+    data = request.get_json() # proses membaca json yang dikirim 
+    nama = data['nama']
+    usia = data['usia']
+    pekerjaan = data['pekerjaan']
+    
+    return ("Halo, {nama}. Usiamu adalah {usia} dan pekerjaanmu adalah {pekerjaan}".format(nama=nama, usia=usia, pekerjaan=pekerjaan))
+
+
+@app.route('/tes_return_json', methods=['POST'])
+def tes_return_json():
+    data = request.get_json() # proses membaca json yang dikirim 
+    df = pd.DataFrame([data]) # mengolah data menjadi dataframe
+
+    return (df.to_json()) # mengembalikan dataframe dalam bentuk json
+
 if __name__ == '__main__':
     app.run(debug=True)
